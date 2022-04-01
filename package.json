@@ -1,0 +1,9 @@
+{
+  "name": "TrulsNSkulls",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc ts/main.ts -w --outDir js --target es2016"
+  }
+}
