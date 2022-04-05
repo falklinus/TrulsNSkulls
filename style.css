@@ -92,7 +92,7 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
+  /* font-size: 100%; */
   font: inherit;
   vertical-align: baseline;
   font-family: PKMN;
@@ -155,8 +155,8 @@ body {
   top: 1rem;
   left: 1rem;
   padding: 0.5rem;
-  background-color: black;
-  color: white;
+  background-color: #302c2e;
+  color: #cfc6b8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,20 +169,19 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-  height: 50%;
-  background-color: black;
-  color: white;
+  background-color: #302c2e;
+  color: #cfc6b8;
   border-radius: 0.5rem;
   transition: opacity 200ms ease-in-out;
   opacity: 0;
   display: flex;
   flex-direction: column;
   pointer-events: none;
+  overflow-x: hidden;
 }
 
 .menu-modal .title {
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid #7d7071;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -198,57 +197,95 @@ body {
 }
 
 .menu-modal ul {
-  padding: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: relative;
-  height: 100%;
+  border-bottom: 1px solid #7d7071;
 }
 
 .menu-modal ul li {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
+  transition: all 200ms ease-in-out;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
+.menu-modal ul li.active {
+  background-color: #a0938e;
+  border-color: #7d7071;
 }
 
 .menu-modal .inner-menu-container {
-  position: absolute;
+  /* position: absolute; */
   inset: 0;
-  background: black;
-  padding: 1rem;
+  background: #302c2e;
+  /* position: relative; */
+  flex-grow: 1;
+  display: flex;
+  width: 200%;
+  --offset-x: 0;
+  transform: translateX(calc(100% * var(--offset-x)));
+  transition: transform 200ms ease-in-out;
 }
 
 .inner-menu {
-  visibility: hidden;
+  padding: 1rem;
   display: grid;
-  width: min-content;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  flex: 1;
+  overflow-x: auto;
 }
 
 .controls-menu {
-  width: min-content;
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0.5rem;
+  grid-template-areas:
+    '. . . up .'
+    '. . . w .'
+    '. . a s d'
+    'shift shift left down right'
+    'sprint sprint . . .';
 }
 
 .controls-menu .up {
-  grid-column: 2;
+  grid-area: up;
+}
+.controls-menu .left {
+  grid-area: left;
+}
+.controls-menu .down {
+  grid-area: down;
+}
+.controls-menu .right {
+  grid-area: right;
+}
+.controls-menu .sprint {
+  grid-area: sprint;
 }
 .controls-menu .w {
-  grid-column: 2;
+  grid-area: w;
 }
 .controls-menu .a {
-  grid-column: 1;
+  grid-area: a;
+}
+.controls-menu .s {
+  grid-area: s;
+}
+.controls-menu .d {
+  grid-area: d;
+}
+.controls-menu .shift {
+  grid-area: shift;
+}
+.controls-menu .empty {
+  grid-area: empty;
 }
 
 .controls-menu .w,
 .controls-menu .a,
 .controls-menu .s,
-.controls-menu .d {
-  border: 2px solid white;
+.controls-menu .d,
+.controls-menu .shift {
+  border: 2px solid #7d7071;
   border-radius: 0.5rem;
   padding: 0.5rem;
   display: flex;
@@ -262,7 +299,8 @@ body {
 .controls-menu .up,
 .controls-menu .left,
 .controls-menu .down,
-.controls-menu .right {
+.controls-menu .right,
+.controls-menu .sprint {
   padding: 1rem;
   display: flex;
   justify-content: center;
@@ -273,4 +311,5 @@ body {
 }
 
 .map-menu {
+  flex: 1;
 }

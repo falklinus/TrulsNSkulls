@@ -2,7 +2,7 @@ import Controller from './Controller.js';
 import Display from './Display.js';
 import Engine from './Engine.js';
 import Game from './Game.js';
-import createMenu from './menu.js';
+import Menu from './menu.js';
 /*
 Get move from controller
 */
@@ -24,7 +24,8 @@ function movePlayer() {
 Runs before render every game loop
 */
 function update() {
-    movePlayer();
+    if (engine.running)
+        movePlayer();
 }
 /*
 Draw game state to canvas
@@ -49,6 +50,26 @@ function render() {
         height: game.world.height,
     });
     // console.log(game.world)
+    const playerShadow = new Image();
+    playerShadow.src = '../assets/player/playerShadow.png';
+    // Player shadow
+    display.drawObject({
+        // color: 'rgba(0, 0, 255, 0.2)',
+        source: {
+            image: playerShadow,
+            x: 0,
+            y: 0,
+        },
+        width: game.player.width,
+        height: game.player.height,
+        destination: {
+            x: display.context.canvas.width / 2 - game.player.width / 2,
+            y: display.context.canvas.height / 2 +
+                game.player.height / 2 -
+                playerShadow.height / 2 -
+                6,
+        },
+    });
     // Add player to buffer
     display.drawObject({
         source: Object.assign({ image: game.player.sprite.image }, game.player.sprite.position),
@@ -59,16 +80,6 @@ function render() {
             y: display.context.canvas.height / 2 - game.player.height / 2,
         },
     });
-    // Player backlight
-    // display.drawObject({
-    //   color: 'rgba(0, 0, 255, 0.2)',
-    //   width: game.player.width,
-    //   height: game.player.height,
-    //   destination: {
-    //     x: display.context.canvas.width / 2 - game.player.width / 2,
-    //     y: display.context.canvas.height / 2 - game.player.height / 2,
-    //   },
-    // })
     // Add foreground to buffer
     display.drawObject({
         source: {
@@ -89,7 +100,7 @@ function render() {
     });
     // for (let collisionObject of game.collisionObjects) {
     //   display.drawObject({
-    //     color: 'rgba(255, 0, 0, 0.5)',
+    //     color: 'rgba(255, 0, 0, 0.2)',
     //     destination: {
     //       x:
     //         display.buffer.canvas.width / 2 -
@@ -144,11 +155,11 @@ function start() {
     // Start game loop
     engine.start();
     // Menu
-    createMenu(engine);
+    Menu(engine);
     // Listen for keyboardevents
     window.addEventListener('keydown', keyDownUp);
     window.addEventListener('keyup', keyDownUp);
     // Listen for window resize
     window.addEventListener('resize', resize);
 }
-start();
+game.world.background.onload = () => start();

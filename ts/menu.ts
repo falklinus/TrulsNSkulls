@@ -1,60 +1,44 @@
 import Engine from './Engine'
 
-function createMenu(engine: Engine) {
+function Menu(engine: Engine) {
   const menuButton = document.querySelector<HTMLElement>('#menuButton')
   const menuModal = document.querySelector<HTMLElement>('#menuModal')
-
-  const menuTitle =
-    menuModal && menuModal.querySelector<HTMLElement>('#menuTitle')
   const menuModalClose =
     menuModal && menuModal.querySelector<HTMLElement>('#menuModalClose')
+  const menuLinks = menuModal && menuModal.querySelectorAll('li')
   const innerMenuContainer =
     menuModal && menuModal.querySelector<HTMLElement>('#innerMenuContainer')
-  const innerMenus = menuModal && menuModal.querySelectorAll('.inner-menu')
-
-  const MENU_ITEMS: Record<string, string> = {
-    CONTROLS: '.controls-menu',
-    MAP: '.map-menu',
+  const MENU_ITEMS: Record<string, { class: string; offset: number }> = {
+    CONTROLS: { class: '.controls-menu', offset: 0 },
+    MAP: { class: '.map-menu', offset: -0.5 },
   }
 
   menuButton && menuButton.addEventListener('click', toggleMenuModal)
 
-  menuModal &&
-    menuModal.querySelectorAll('li').forEach((item: HTMLLIElement) => {
+  menuLinks &&
+    menuLinks.forEach((item: HTMLLIElement) => {
       item.addEventListener('click', handleMenuItemClick)
     })
 
-  function goToMainMenu() {
-    if (!(menuTitle && innerMenus && innerMenuContainer)) return
-
-    menuTitle.textContent = 'MENU'
-    menuTitle.removeEventListener('click', goToMainMenu)
-
-    innerMenus.forEach((menu: any) => {
-      menu.style.visibility = 'hidden'
-    })
-    innerMenuContainer.style.visibility = 'hidden'
-  }
-
   function handleMenuItemClick({ target }: Event) {
-    if (!(innerMenuContainer && menuTitle)) return
+    const _target = target as HTMLElement
+    // goToMainMenu()
 
-    innerMenuContainer.style.visibility = 'visible'
+    if (!(menuLinks && innerMenuContainer)) return
 
-    let innerMenu
+    menuLinks.forEach((link) => {
+      link.classList.remove('active')
+    })
 
     Object.keys(MENU_ITEMS).forEach((key) => {
-      if ((target as HTMLElement).textContent?.includes(key) && menuModal) {
-        innerMenu = menuModal.querySelector<HTMLElement>(MENU_ITEMS[key])
-        if (innerMenu) innerMenu.style.visibility = 'visible'
+      if (_target.textContent?.includes(key) && menuModal) {
+        innerMenuContainer.style.setProperty(
+          '--offset-x',
+          `${MENU_ITEMS[key].offset}`
+        )
+        _target.classList.add('active')
       }
     })
-
-    menuTitle.textContent =
-      '< ' +
-      String.fromCharCode(160) +
-      (target as HTMLElement).textContent?.split(' ')[1]
-    menuTitle.addEventListener('click', goToMainMenu)
   }
 
   function checkOutsideClick(e: Event) {
@@ -69,11 +53,10 @@ function createMenu(engine: Engine) {
   }
 
   function toggleMenuModal() {
-    goToMainMenu()
     if (!(menuModal && menuModalClose)) return
 
     if (!menuModal.style.opacity || menuModal.style.opacity == '0') {
-      engine.stop()
+      engine.pause()
       menuModal.style.opacity = '1'
       menuModal.style.pointerEvents = 'all'
       menuModalClose.addEventListener('click', toggleMenuModal)
@@ -83,9 +66,9 @@ function createMenu(engine: Engine) {
       menuModal.style.pointerEvents = 'none'
       menuModalClose.removeEventListener('click', toggleMenuModal)
       window.removeEventListener('click', checkOutsideClick)
-      engine.start()
+      engine.resume()
     }
   }
 }
 
-export default createMenu
+export default Menu

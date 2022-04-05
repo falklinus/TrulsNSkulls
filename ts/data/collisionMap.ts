@@ -1,8 +1,8 @@
 export default {
   symbol: 289,
   tileSize: {
-    width: 48,
-    height: 48,
+    width: 36,
+    height: 36,
   },
   data: [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

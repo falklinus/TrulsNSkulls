@@ -1,48 +1,33 @@
-function createMenu(engine) {
+function Menu(engine) {
     const menuButton = document.querySelector('#menuButton');
     const menuModal = document.querySelector('#menuModal');
-    const menuTitle = menuModal && menuModal.querySelector('#menuTitle');
     const menuModalClose = menuModal && menuModal.querySelector('#menuModalClose');
+    const menuLinks = menuModal && menuModal.querySelectorAll('li');
     const innerMenuContainer = menuModal && menuModal.querySelector('#innerMenuContainer');
-    const innerMenus = menuModal && menuModal.querySelectorAll('.inner-menu');
     const MENU_ITEMS = {
-        CONTROLS: '.controls-menu',
-        MAP: '.map-menu',
+        CONTROLS: { class: '.controls-menu', offset: 0 },
+        MAP: { class: '.map-menu', offset: -0.5 },
     };
     menuButton && menuButton.addEventListener('click', toggleMenuModal);
-    menuModal &&
-        menuModal.querySelectorAll('li').forEach((item) => {
+    menuLinks &&
+        menuLinks.forEach((item) => {
             item.addEventListener('click', handleMenuItemClick);
         });
-    function goToMainMenu() {
-        if (!(menuTitle && innerMenus && innerMenuContainer))
-            return;
-        menuTitle.textContent = 'MENU';
-        menuTitle.removeEventListener('click', goToMainMenu);
-        innerMenus.forEach((menu) => {
-            menu.style.visibility = 'hidden';
-        });
-        innerMenuContainer.style.visibility = 'hidden';
-    }
     function handleMenuItemClick({ target }) {
-        var _a;
-        if (!(innerMenuContainer && menuTitle))
+        const _target = target;
+        // goToMainMenu()
+        if (!(menuLinks && innerMenuContainer))
             return;
-        innerMenuContainer.style.visibility = 'visible';
-        let innerMenu;
+        menuLinks.forEach((link) => {
+            link.classList.remove('active');
+        });
         Object.keys(MENU_ITEMS).forEach((key) => {
             var _a;
-            if (((_a = target.textContent) === null || _a === void 0 ? void 0 : _a.includes(key)) && menuModal) {
-                innerMenu = menuModal.querySelector(MENU_ITEMS[key]);
-                if (innerMenu)
-                    innerMenu.style.visibility = 'visible';
+            if (((_a = _target.textContent) === null || _a === void 0 ? void 0 : _a.includes(key)) && menuModal) {
+                innerMenuContainer.style.setProperty('--offset-x', `${MENU_ITEMS[key].offset}`);
+                _target.classList.add('active');
             }
         });
-        menuTitle.textContent =
-            '< ' +
-                String.fromCharCode(160) +
-                ((_a = target.textContent) === null || _a === void 0 ? void 0 : _a.split(' ')[1]);
-        menuTitle.addEventListener('click', goToMainMenu);
     }
     function checkOutsideClick(e) {
         if (menuModal &&
@@ -53,11 +38,10 @@ function createMenu(engine) {
         }
     }
     function toggleMenuModal() {
-        goToMainMenu();
         if (!(menuModal && menuModalClose))
             return;
         if (!menuModal.style.opacity || menuModal.style.opacity == '0') {
-            engine.stop();
+            engine.pause();
             menuModal.style.opacity = '1';
             menuModal.style.pointerEvents = 'all';
             menuModalClose.addEventListener('click', toggleMenuModal);
@@ -68,8 +52,8 @@ function createMenu(engine) {
             menuModal.style.pointerEvents = 'none';
             menuModalClose.removeEventListener('click', toggleMenuModal);
             window.removeEventListener('click', checkOutsideClick);
-            engine.start();
+            engine.resume();
         }
     }
 }
-export default createMenu;
+export default Menu;

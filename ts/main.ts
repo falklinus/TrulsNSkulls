@@ -2,7 +2,7 @@ import Controller from './Controller.js'
 import Display from './Display.js'
 import Engine from './Engine.js'
 import Game from './Game.js'
-import createMenu from './menu.js'
+import Menu from './menu.js'
 
 /*
 Get move from controller
@@ -27,7 +27,7 @@ function movePlayer() {
 Runs before render every game loop
 */
 function update() {
-  movePlayer()
+  if (engine.running) movePlayer()
 }
 
 /*
@@ -56,6 +56,29 @@ function render() {
   })
   // console.log(game.world)
 
+  const playerShadow = new Image()
+  playerShadow.src = '../assets/player/playerShadow.png'
+
+  // Player shadow
+  display.drawObject({
+    // color: 'rgba(0, 0, 255, 0.2)',
+    source: {
+      image: playerShadow,
+      x: 0,
+      y: 0,
+    },
+    width: game.player.width,
+    height: game.player.height,
+    destination: {
+      x: display.context.canvas.width / 2 - game.player.width / 2,
+      y:
+        display.context.canvas.height / 2 +
+        game.player.height / 2 -
+        playerShadow.height / 2 -
+        6,
+    },
+  })
+
   // Add player to buffer
   display.drawObject({
     source: {
@@ -69,17 +92,6 @@ function render() {
       y: display.context.canvas.height / 2 - game.player.height / 2,
     },
   })
-
-  // Player backlight
-  // display.drawObject({
-  //   color: 'rgba(0, 0, 255, 0.2)',
-  //   width: game.player.width,
-  //   height: game.player.height,
-  //   destination: {
-  //     x: display.context.canvas.width / 2 - game.player.width / 2,
-  //     y: display.context.canvas.height / 2 - game.player.height / 2,
-  //   },
-  // })
 
   // Add foreground to buffer
   display.drawObject({
@@ -104,7 +116,7 @@ function render() {
 
   // for (let collisionObject of game.collisionObjects) {
   //   display.drawObject({
-  //     color: 'rgba(255, 0, 0, 0.5)',
+  //     color: 'rgba(255, 0, 0, 0.2)',
   //     destination: {
   //       x:
   //         display.buffer.canvas.width / 2 -
@@ -171,7 +183,7 @@ function start() {
   engine.start()
 
   // Menu
-  createMenu(engine)
+  Menu(engine)
 
   // Listen for keyboardevents
   window.addEventListener('keydown', keyDownUp)
@@ -180,4 +192,4 @@ function start() {
   window.addEventListener('resize', resize)
 }
 
-start()
+game.world.background.onload = () => start()

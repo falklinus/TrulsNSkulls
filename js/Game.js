@@ -8,10 +8,6 @@ class Game {
         this.world = new World();
         this.player = new Player({ x: 0, y: 0 });
         this.collisionObjects = this.mapCollisionObjects({
-            // tileSize: {
-            //   width: this.world.width / collisionMapData.width,
-            //   height: this.world.height / collisionMapData.height,
-            // },
             tileSize: collisionMapData.tileSize,
             data: collisionMapData.data,
             symbol: collisionMapData.symbol,
@@ -19,21 +15,6 @@ class Game {
             height: collisionMapData.height,
         });
     }
-    // collisionMap = new CollisionMap({
-    //   ...collisionMapData,
-    // })
-    // canMove(direction: string) {
-    //   switch (direction) {
-    //     case 'left':
-    //       return !this.willCollide({ x: -1, y: 0 })
-    //     case 'right':
-    //       return !this.willCollide({ x: 1, y: 0 })
-    //     case 'up':
-    //       return !this.willCollide({ x: 0, y: -1 })
-    //     case 'down':
-    //       return !this.willCollide({ x: 0, y: 1 })
-    //   }
-    // }
     willCollide({ x, y }) {
         const playerObject = new GameObject({
             x: this.player.x + x,
@@ -42,35 +23,10 @@ class Game {
             height: this.player.height,
         });
         for (let collisionObject of this.collisionObjects) {
-            // console.log(collisionObject, playerObject)
-            /* if (
-              ((playerObject.getRight() >= collisionObject.getLeft() ||
-                playerObject.getLeft() <= collisionObject.getRight()) &&
-                playerObject.getCenterY() <= collisionObject.getBottom() &&
-                playerObject.getCenterY() >= collisionObject.getTop()) ||
-              ((playerObject.getBottom() >= collisionObject.getTop() ||
-                playerObject.getTop() <= collisionObject.getBottom()) &&
-                playerObject.getCenterX() <= collisionObject.getRight() &&
-                playerObject.getCenterX() >= collisionObject.getLeft())
-            )  */
-            if (collisionObject.getLeft() < playerObject.getRight() - 4 &&
-                collisionObject.getRight() > playerObject.getLeft() + 4 &&
-                collisionObject.getTop() < playerObject.getBottom() - 4 &&
-                collisionObject.getBottom() > playerObject.getCenterY()) {
-                console.log('player: ', {
-                    top: playerObject.getTop(),
-                    right: playerObject.getRight(),
-                    bottom: playerObject.getBottom(),
-                    left: playerObject.getLeft(),
-                    centerY: playerObject.getCenterY(),
-                    centerX: playerObject.getCenterX(),
-                });
-                console.log('object: ', {
-                    top: collisionObject.getTop(),
-                    right: collisionObject.getRight(),
-                    bottom: collisionObject.getBottom(),
-                    left: collisionObject.getLeft(),
-                });
+            if (collisionObject.getLeft() < playerObject.getRight() - 6 &&
+                collisionObject.getRight() > playerObject.getLeft() + 6 &&
+                collisionObject.getTop() < playerObject.getBottom() - 6 &&
+                collisionObject.getBottom() > playerObject.getCenterY() + 6) {
                 return true;
             }
         }
