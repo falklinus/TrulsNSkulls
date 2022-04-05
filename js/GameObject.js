@@ -30,16 +30,16 @@ class GameObject {
         this.height = height;
     }
     moveLeft(speed = 1) {
-        this.x += speed;
-    }
-    moveRight(speed = 1) {
         this.x -= speed;
     }
+    moveRight(speed = 1) {
+        this.x += speed;
+    }
     moveUp(speed = 1) {
-        this.y += speed;
+        this.y -= speed;
     }
     moveDown(speed = 1) {
-        this.y -= speed;
+        this.y += speed;
     }
 }
 export default GameObject;

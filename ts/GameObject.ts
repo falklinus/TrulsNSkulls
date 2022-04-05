@@ -48,19 +48,19 @@ class GameObject {
   }
 
   moveLeft(speed: number = 1) {
-    this.x += speed
-  }
-
-  moveRight(speed: number = 1) {
     this.x -= speed
   }
 
+  moveRight(speed: number = 1) {
+    this.x += speed
+  }
+
   moveUp(speed: number = 1) {
-    this.y += speed
+    this.y -= speed
   }
 
   moveDown(speed: number = 1) {
-    this.y -= speed
+    this.y += speed
   }
 }
 

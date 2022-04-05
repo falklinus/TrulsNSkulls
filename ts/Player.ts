@@ -2,69 +2,71 @@ import GameObject from './GameObject.js'
 import Sprite from './Sprite.js'
 
 const MOVE_DATA = [
-  // {
-  //   name: 'up',
-  //   src: '../assets/player/playerUp.png',
-  //   frames: {
-  //     cols: 2,
-  //     rows: 1,
-  //     start: 0,
-  //     end: 2,
-  //     delay: 10,
-  //   },
-  // },
   {
     name: 'down',
-    src: '../assets/pokemon/playerDown.png',
+    src: '../assets/player/playerDown.png',
     frames: {
       cols: 4,
       rows: 1,
       idle: 0,
       start: 1,
       first: 0,
-      last: 4,
-      // delay: 4,
+      last: 3,
+      // delay: 10,
     },
   },
-  {
-    name: 'left',
-    src: '../assets/pokemon/playerLeft.png',
-    frames: {
-      cols: 4,
-      rows: 1,
-      idle: 0,
-      start: 1,
-      first: 0,
-      last: 4,
-      // delay: 4,
-    },
-  },
-  {
-    name: 'right',
-    src: '../assets/pokemon/playerRight.png',
-    frames: {
-      cols: 4,
-      rows: 1,
-      idle: 1,
-      start: 0,
-      first: 0,
-      last: 4,
-      // delay: 4,
-    },
-  },
-  {
-    name: 'up',
-    src: '../assets/pokemon/playerUp.png',
-    frames: {
-      cols: 4,
-      rows: 1,
-      idle: 0,
-      start: 1,
-      first: 0,
-      last: 4,
-      // delay: 4,
-    },
-  },
+  // {
+  //   name: 'down',
+  //   src: '../assets/pokemon/playerDown.png',
+  //   frames: {
+  //     cols: 4,
+  //     rows: 1,
+  //     idle: 0,
+  //     start: 1,
+  //     first: 0,
+  //     last: 3,
+  //     // delay: 4,
+  //   },
+  // },
+  // {
+  //   name: 'left',
+  //   src: '../assets/pokemon/playerLeft.png',
+  //   frames: {
+  //     cols: 4,
+  //     rows: 1,
+  //     idle: 0,
+  //     start: 1,
+  //     first: 0,
+  //     last: 3,
+  //     // delay: 4,
+  //   },
+  // },
+  // {
+  //   name: 'right',
+  //   src: '../assets/pokemon/playerRight.png',
+  //   frames: {
+  //     cols: 4,
+  //     rows: 1,
+  //     idle: 1,
+  //     start: 0,
+  //     first: 0,
+  //     last: 3,
+  //     // delay: 4,
+  //   },
+  // },
+  // {
+  //   name: 'up',
+  //   src: '../assets/pokemon/playerUp.png',
+  //   frames: {
+  //     cols: 4,
+  //     rows: 1,
+  //     idle: 0,
+  //     start: 1,
+  //     first: 0,
+  //     last: 3,
+  //     // delay: 4,
+  //   },
+  // },
 ]
 
 class Player extends GameObject {
@@ -119,8 +121,23 @@ class Player extends GameObject {
     })
   }
 
+  tryMove({ direction, moveFast }: { direction: string; moveFast: boolean }) {
+    const speed = moveFast ? this.speed.fast : this.speed.slow
+    switch (direction) {
+      case 'left':
+        return { x: -speed, y: 0 }
+      case 'right':
+        return { x: speed, y: 0 }
+      case 'up':
+        return { x: 0, y: -speed }
+      case 'down':
+        return { x: 0, y: speed }
+      default:
+        return { x: 0, y: 0 }
+    }
+  }
+
   move({ direction, moveFast }: { direction: string; moveFast: boolean }) {
-    console.log(direction)
     const speed = moveFast ? this.speed.fast : this.speed.slow
     switch (direction) {
       case 'left':

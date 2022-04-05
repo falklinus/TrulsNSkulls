@@ -73,7 +73,7 @@ class Sprite {
     this.elapsed++
     while (this.elapsed > delay) {
       this.elapsed -= delay
-      if (this.frameIndex >= this.frames.last - 1)
+      if (this.frameIndex >= this.frames.last)
         this.frameIndex = this.frames.first
       else this.frameIndex++
     }

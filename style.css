@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'PKMN';
+  src: url('./fonts/PKMN\ RBYGSC.ttf');
+}
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -90,6 +95,8 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  font-family: PKMN;
+  font-size: 1.5vmin;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -134,6 +141,136 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: hsl(0, 0%, 10%);
+}
+
+.game-container {
+  position: relative;
+}
+
+.menu-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.menu-modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
+  background-color: black;
+  color: white;
+  border-radius: 0.5rem;
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.menu-modal .title {
+  border-bottom: 2px solid white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-modal .title span {
+  cursor: pointer;
+}
+
+.menu-modal .menu-back {
+  margin-right: 1rem;
+  display: none;
+}
+
+.menu-modal ul {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  height: 100%;
+}
+
+.menu-modal ul li {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.menu-modal .inner-menu-container {
+  position: absolute;
+  inset: 0;
+  background: black;
+  padding: 1rem;
+}
+
+.inner-menu {
+  visibility: hidden;
+  display: grid;
+  width: min-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.controls-menu {
+  width: min-content;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.controls-menu .up {
+  grid-column: 2;
+}
+.controls-menu .w {
+  grid-column: 2;
+}
+.controls-menu .a {
+  grid-column: 1;
+}
+
+.controls-menu .w,
+.controls-menu .a,
+.controls-menu .s,
+.controls-menu .d {
+  border: 2px solid white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls-menu .up,
+.controls-menu .left,
+.controls-menu .down,
+.controls-menu .right {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-menu {
 }

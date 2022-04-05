@@ -9,6 +9,32 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <canvas></canvas>
+    <div class="game-container">
+      <div id="menuButton" class="menu-button">MENU</div>
+      <div id="menuModal" class="menu-modal">
+        <div class="title">
+          <span> <span id="menuTitle">MENU</span></span>
+          <span id="menuModalClose">X</span>
+        </div>
+        <ul>
+          <li>- MAP</li>
+          <li>- CONTROLS</li>
+          <div id="innerMenuContainer" class="inner-menu-container">
+            <div class="inner-menu controls-menu">
+              <span class="up">UP</span>
+              <span class="w">W</span>
+              <span class="a">A</span>
+              <span class="s">S</span>
+              <span class="d">D</span>
+              <span class="left">LEFT</span>
+              <span class="down">DOWN</span>
+              <span class="right">RIGHT</span>
+            </div>
+            <div class="inner-menu map-menu">MAP</div>
+          </div>
+        </ul>
+      </div>
+      <canvas></canvas>
+    </div>
   </body>
 </html>
