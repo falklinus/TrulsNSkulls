@@ -1,5 +1,6 @@
 class GameObject {
     constructor({ x, y, width, height, }) {
+        this.moving = false;
         this.getLeft = () => this.x;
         this.getRight = () => this.x + this.width;
         this.getTop = () => this.y;
@@ -30,15 +31,19 @@ class GameObject {
         this.height = height;
     }
     moveLeft(speed = 1) {
+        this.moving = speed > 0;
         this.x -= speed;
     }
     moveRight(speed = 1) {
+        this.moving = speed > 0;
         this.x += speed;
     }
     moveUp(speed = 1) {
+        this.moving = speed > 0;
         this.y -= speed;
     }
     moveDown(speed = 1) {
+        this.moving = speed > 0;
         this.y += speed;
     }
 }

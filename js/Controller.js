@@ -1,29 +1,31 @@
-class Controller {
-    constructor() {
-        this.shift = new KeyboardInput();
-        this.KEY_MAP = {
-            a: 'left',
-            d: 'right',
-            w: 'up',
-            s: 'down',
-        };
-        this.keyBuffer = [];
-    }
-    keyDownUp(type, key) {
+function Controller() {
+    const shift = new KeyboardInput();
+    const enter = new KeyboardInput();
+    const KEY_MAP = {
+        a: 'left',
+        d: 'right',
+        w: 'up',
+        s: 'down',
+    };
+    let keyBuffer = [];
+    function keyDownUp(type, key) {
         const down = type === 'keydown' ? true : false;
         const inputKey = key.toLowerCase();
         if (inputKey === 'shift')
-            return this.shift.getInput(down);
-        if (!Object.keys(this.KEY_MAP).includes(inputKey))
+            return shift.getInput(down);
+        if (inputKey === 'enter')
+            return enter.getInput(down);
+        if (!Object.keys(KEY_MAP).includes(inputKey))
             return;
         if (!down)
-            return (this.keyBuffer = this.keyBuffer.filter((k) => k !== inputKey));
-        if (!this.keyBuffer.includes(inputKey))
-            return this.keyBuffer.unshift(inputKey);
+            return (keyBuffer = keyBuffer.filter((k) => k !== inputKey));
+        if (!keyBuffer.includes(inputKey))
+            return keyBuffer.unshift(inputKey);
     }
-    get direction() {
-        return this.KEY_MAP[this.keyBuffer[0]];
+    function direction() {
+        return KEY_MAP[keyBuffer[0]];
     }
+    return { shift, enter, direction, keyDownUp };
 }
 export default Controller;
 class KeyboardInput {

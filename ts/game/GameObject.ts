@@ -3,6 +3,7 @@ class GameObject {
   y: number
   width: number
   height: number
+  moving = false
 
   constructor({
     x,
@@ -48,18 +49,22 @@ class GameObject {
   }
 
   moveLeft(speed: number = 1) {
+    this.moving = speed > 0
     this.x -= speed
   }
 
   moveRight(speed: number = 1) {
+    this.moving = speed > 0
     this.x += speed
   }
 
   moveUp(speed: number = 1) {
+    this.moving = speed > 0
     this.y -= speed
   }
 
   moveDown(speed: number = 1) {
+    this.moving = speed > 0
     this.y += speed
   }
 }

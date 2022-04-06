@@ -5,7 +5,7 @@ class Display {
             .getContext('2d');
         this.context = canvas.getContext('2d');
     }
-    drawObject({ color, source, destination, width, height, }) {
+    drawObject({ color, source, destination, width = this.buffer.canvas.width, height = this.buffer.canvas.height, }) {
         if (source) {
             this.buffer.drawImage(source.image, source.x, source.y, width, height, destination.x, destination.y, width, height);
         }
@@ -13,6 +13,12 @@ class Display {
             this.buffer.fillStyle = color;
             this.buffer.fillRect(destination.x, destination.y, width, height);
         }
+    }
+    drawText({ text, font, color = 'black', destination, }) {
+        this.buffer.fillStyle = color;
+        this.buffer.font = font;
+        this.buffer.textAlign = 'center';
+        this.buffer.fillText(text, destination.x, destination.y);
     }
     resize(width, height, heightWidthRatio) {
         if (height / width > heightWidthRatio) {

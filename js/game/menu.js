@@ -1,4 +1,4 @@
-function Menu(engine) {
+function Menu(gameStack) {
     const menuButton = document.querySelector('#menuButton');
     const menuModal = document.querySelector('#menuModal');
     const menuModalClose = menuModal && menuModal.querySelector('#menuModalClose');
@@ -8,7 +8,10 @@ function Menu(engine) {
         CONTROLS: { class: '.controls-menu', offset: 0 },
         MAP: { class: '.map-menu', offset: -0.5 },
     };
-    menuButton && menuButton.addEventListener('click', toggleMenuModal);
+    if (menuButton) {
+        menuButton.style.display = 'block';
+        menuButton.addEventListener('click', toggleMenuModal);
+    }
     menuLinks &&
         menuLinks.forEach((item) => {
             item.addEventListener('click', handleMenuItemClick);
@@ -41,7 +44,7 @@ function Menu(engine) {
         if (!(menuModal && menuModalClose))
             return;
         if (!menuModal.style.opacity || menuModal.style.opacity == '0') {
-            engine.pause();
+            gameStack.pause();
             menuModal.style.opacity = '1';
             menuModal.style.pointerEvents = 'all';
             menuModalClose.addEventListener('click', toggleMenuModal);
@@ -52,7 +55,7 @@ function Menu(engine) {
             menuModal.style.pointerEvents = 'none';
             menuModalClose.removeEventListener('click', toggleMenuModal);
             window.removeEventListener('click', checkOutsideClick);
-            engine.resume();
+            gameStack.resume();
         }
     }
 }

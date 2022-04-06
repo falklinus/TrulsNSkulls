@@ -1,6 +1,6 @@
-import Engine from './Engine'
+import { StateStack } from '../state/StateStack.js'
 
-function Menu(engine: Engine) {
+function Menu(gameStack: StateStack) {
   const menuButton = document.querySelector<HTMLElement>('#menuButton')
   const menuModal = document.querySelector<HTMLElement>('#menuModal')
   const menuModalClose =
@@ -13,7 +13,10 @@ function Menu(engine: Engine) {
     MAP: { class: '.map-menu', offset: -0.5 },
   }
 
-  menuButton && menuButton.addEventListener('click', toggleMenuModal)
+  if (menuButton) {
+    menuButton.style.display = 'block'
+    menuButton.addEventListener('click', toggleMenuModal)
+  }
 
   menuLinks &&
     menuLinks.forEach((item: HTMLLIElement) => {
@@ -56,7 +59,7 @@ function Menu(engine: Engine) {
     if (!(menuModal && menuModalClose)) return
 
     if (!menuModal.style.opacity || menuModal.style.opacity == '0') {
-      engine.pause()
+      gameStack.pause()
       menuModal.style.opacity = '1'
       menuModal.style.pointerEvents = 'all'
       menuModalClose.addEventListener('click', toggleMenuModal)
@@ -66,7 +69,7 @@ function Menu(engine: Engine) {
       menuModal.style.pointerEvents = 'none'
       menuModalClose.removeEventListener('click', toggleMenuModal)
       window.removeEventListener('click', checkOutsideClick)
-      engine.resume()
+      gameStack.resume()
     }
   }
 }

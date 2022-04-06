@@ -162,6 +162,7 @@ body {
   justify-content: center;
   cursor: pointer;
   border-radius: 0.5rem;
+  display: none;
 }
 
 .menu-modal {

@@ -12,14 +12,14 @@ class Display {
     color,
     source,
     destination,
-    width,
-    height,
+    width = this.buffer.canvas.width,
+    height = this.buffer.canvas.height,
   }: {
     color?: string
     source?: { image: HTMLImageElement; x: number; y: number }
     destination: { x: number; y: number /* ; width: number; height: number */ }
-    width: number
-    height: number
+    width?: number
+    height?: number
   }) {
     if (source) {
       this.buffer.drawImage(
@@ -37,6 +37,23 @@ class Display {
       this.buffer.fillStyle = color
       this.buffer.fillRect(destination.x, destination.y, width, height)
     }
+  }
+
+  drawText({
+    text,
+    font,
+    color = 'black',
+    destination,
+  }: {
+    text: string
+    font: string
+    color: string
+    destination: { x: number; y: number }
+  }) {
+    this.buffer.fillStyle = color
+    this.buffer.font = font
+    this.buffer.textAlign = 'center'
+    this.buffer.fillText(text, destination.x, destination.y)
   }
 
   resize(width: number, height: number, heightWidthRatio: number) {
