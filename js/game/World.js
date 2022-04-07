@@ -27,7 +27,7 @@ class World {
     }
     isEncounter() {
         return this.collisionManager.isEncounter(this.player, {
-            encounterRate: 0.015,
+            encounterRate: 1,
         });
     }
     movePlayer({ direction, moveFast, }) {

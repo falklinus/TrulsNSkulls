@@ -77,6 +77,8 @@ class CollisionManager {
           height: battleObject.height,
         })
 
+        let corner = false
+
         for (let collisionObject of this.normal) {
           const battleZoneRight = new GameObject({
             x: battleObject.x + 1,
@@ -109,29 +111,34 @@ class CollisionManager {
             })
           ) {
             battleZone.setRight(battleZone.getCenterX())
-            break
-          } else if (
+            corner = true
+          }
+          if (
             this.allSidesCollision(battleZoneLeft, collisionObject, {
               isPlayer: false,
             })
           ) {
             battleZone.setLeft(battleZone.getCenterX())
-            break
-          } else if (
+            corner = true
+          }
+          if (
             this.allSidesCollision(battleZoneUp, collisionObject, {
               isPlayer: false,
             })
           ) {
             battleZone.setTop(battleZone.getCenterY())
-            break
-          } else if (
+            corner = true
+          }
+          if (
             this.allSidesCollision(battleZoneDown, collisionObject, {
               isPlayer: false,
             })
           ) {
             battleZone.setBottom(battleZone.getCenterY())
-            break
+            corner = true
           }
+
+          if (corner) break
         }
 
         const overlappingArea =

@@ -42,6 +42,7 @@ class CollisionManager {
                     width: battleObject.width,
                     height: battleObject.height,
                 });
+                let corner = false;
                 for (let collisionObject of this.normal) {
                     const battleZoneRight = new GameObject({
                         x: battleObject.x + 1,
@@ -71,26 +72,28 @@ class CollisionManager {
                         isPlayer: false,
                     })) {
                         battleZone.setRight(battleZone.getCenterX());
-                        break;
+                        corner = true;
                     }
-                    else if (this.allSidesCollision(battleZoneLeft, collisionObject, {
+                    if (this.allSidesCollision(battleZoneLeft, collisionObject, {
                         isPlayer: false,
                     })) {
                         battleZone.setLeft(battleZone.getCenterX());
-                        break;
+                        corner = true;
                     }
-                    else if (this.allSidesCollision(battleZoneUp, collisionObject, {
+                    if (this.allSidesCollision(battleZoneUp, collisionObject, {
                         isPlayer: false,
                     })) {
                         battleZone.setTop(battleZone.getCenterY());
-                        break;
+                        corner = true;
                     }
-                    else if (this.allSidesCollision(battleZoneDown, collisionObject, {
+                    if (this.allSidesCollision(battleZoneDown, collisionObject, {
                         isPlayer: false,
                     })) {
                         battleZone.setBottom(battleZone.getCenterY());
-                        break;
+                        corner = true;
                     }
+                    if (corner)
+                        break;
                 }
                 const overlappingArea = (Math.min(playerObject.getCenterX() + battleZone.width / 2, battleZone.getRight()) -
                     Math.max(playerObject.getCenterX() - battleZone.width / 2, battleZone.getLeft())) *
