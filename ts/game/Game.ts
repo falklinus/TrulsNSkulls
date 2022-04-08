@@ -31,6 +31,7 @@ function Game() {
       document.documentElement.clientHeight,
       9 / 16
     )
+
     display.render()
   }
 

@@ -9,8 +9,8 @@ class World {
   width: number
   height: number
 
+  player = new Player({ x: 0, y: 1200 })
   collisionManager: CollisionManager
-  player = new Player({ x: 0, y: 0 })
 
   constructor() {
     this.background.src = '../assets/world/background.png'

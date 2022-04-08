@@ -6,7 +6,7 @@ class World {
     constructor() {
         this.background = new Image();
         this.foreground = new Image();
-        this.player = new Player({ x: 0, y: 0 });
+        this.player = new Player({ x: 0, y: 1200 });
         this.background.src = '../assets/world/background.png';
         this.foreground.src = '../assets/world/foreground.png';
         this.width = this.background.width;

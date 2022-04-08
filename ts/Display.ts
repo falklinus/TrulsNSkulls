@@ -1,7 +1,11 @@
 class Display {
   buffer: CanvasRenderingContext2D
   context: CanvasRenderingContext2D
+  canvas: HTMLCanvasElement
+  scale_x = 1
+  scale_y = 1
   constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas
     this.buffer = document
       .createElement('canvas')
       .getContext('2d') as CanvasRenderingContext2D
@@ -12,12 +16,20 @@ class Display {
     color,
     source,
     destination,
-    width = this.buffer.canvas.width,
-    height = this.buffer.canvas.height,
+    width = this.buffer.canvas.width / this.scale_x,
+    height = this.buffer.canvas.height / this.scale_y,
   }: {
     color?: string
     source?: { image: HTMLImageElement; x: number; y: number }
-    destination: { x: number; y: number /* ; width: number; height: number */ }
+    destination: {
+      x: number
+      y: number
+      offset: {
+        x: number
+        y: number
+      }
+      /* ; width: number; height: number */
+    }
     width?: number
     height?: number
   }) {
@@ -28,14 +40,23 @@ class Display {
         source.y,
         width,
         height,
-        destination.x,
-        destination.y,
-        width,
-        height
+        destination.x * this.scale_x +
+          destination.offset.x * this.buffer.canvas.width,
+        destination.y * this.scale_y +
+          destination.offset.y * this.buffer.canvas.height,
+        width * this.scale_x,
+        height * this.scale_y
       )
     } else if (color) {
       this.buffer.fillStyle = color
-      this.buffer.fillRect(destination.x, destination.y, width, height)
+      this.buffer.fillRect(
+        destination.x * this.scale_x +
+          destination.offset.x * this.buffer.canvas.width,
+        destination.y * this.scale_y +
+          destination.offset.y * this.buffer.canvas.height,
+        width * this.scale_x,
+        height * this.scale_y
+      )
     }
   }
 
@@ -67,6 +88,9 @@ class Display {
 
     this.buffer.canvas.height = this.context.canvas.height
     this.buffer.canvas.width = this.context.canvas.width
+
+    this.scale_x = this.buffer.canvas.width / 1920
+    this.scale_y = this.buffer.canvas.height / 1080
 
     this.context.imageSmoothingEnabled = false
   }

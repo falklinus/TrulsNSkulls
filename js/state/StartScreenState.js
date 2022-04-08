@@ -42,7 +42,14 @@ function StartScreenState(display, gameStack) {
     function render() {
         display.drawObject({
             color: 'black',
-            destination: { x: 0, y: 0 },
+            destination: {
+                x: 0,
+                y: 0,
+                offset: {
+                    x: 0,
+                    y: 0,
+                },
+            },
         });
         display.drawText({
             text: 'Press Enter to Start',

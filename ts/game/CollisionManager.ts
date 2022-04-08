@@ -32,7 +32,7 @@ class CollisionManager {
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
         switch (data[index]) {
-          case 289:
+          case 4096:
             this.normal.push(
               new GameObject({
                 x: x * width - offset.x,

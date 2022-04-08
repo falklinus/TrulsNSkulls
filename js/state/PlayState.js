@@ -41,12 +41,12 @@ function PlayState(display, gameStack) {
                 y: 0,
             },
             destination: {
-                x: display.buffer.canvas.width / 2 -
-                    world.width / 2 -
-                    world.player.getLeft(),
-                y: display.buffer.canvas.height / 2 -
-                    world.height / 2 -
-                    world.player.getTop(),
+                x: -world.width / 2 - world.player.getLeft(),
+                y: -world.height / 2 - world.player.getTop(),
+                offset: {
+                    x: 0.5,
+                    y: 0.5,
+                },
             },
             width: world.width,
             height: world.height,
@@ -56,14 +56,16 @@ function PlayState(display, gameStack) {
             display.drawObject({
                 color: 'rgba(255, 0, 255, 0.5)',
                 destination: {
-                    x: display.buffer.canvas.width / 2 -
-                        world.player.getLeft() +
-                        battleObject.x -
-                        world.player.width / 2,
-                    y: display.buffer.canvas.height / 2 -
-                        world.player.getTop() +
-                        battleObject.y -
-                        world.player.height / 2,
+                    x: -(world.player.getLeft() -
+                        battleObject.x +
+                        world.player.width / 2),
+                    y: -(world.player.getTop() -
+                        battleObject.y +
+                        world.player.height / 2),
+                    offset: {
+                        x: 0.5,
+                        y: 0.5,
+                    },
                 },
                 width: battleObject.width,
                 height: battleObject.height,
@@ -81,11 +83,12 @@ function PlayState(display, gameStack) {
             width: world.player.width,
             height: world.player.height,
             destination: {
-                x: display.context.canvas.width / 2 - world.player.width / 2,
-                y: display.context.canvas.height / 2 +
-                    world.player.height / 2 -
-                    playerShadow.height / 2 -
-                    6,
+                x: -(world.player.width / 2),
+                y: world.player.height / 2 - playerShadow.height / 2 - 6,
+                offset: {
+                    x: 0.5,
+                    y: 0.5,
+                },
             },
         });
         // Player battle collisionbox
@@ -94,8 +97,12 @@ function PlayState(display, gameStack) {
             width: 36,
             height: 36,
             destination: {
-                x: display.context.canvas.width / 2 - 18,
-                y: display.context.canvas.height / 2 + 12,
+                x: -18,
+                y: 12,
+                offset: {
+                    x: 0.5,
+                    y: 0.5,
+                },
             },
         });
         // Player
@@ -104,8 +111,12 @@ function PlayState(display, gameStack) {
             width: world.player.width,
             height: world.player.height,
             destination: {
-                x: display.context.canvas.width / 2 - world.player.width / 2,
-                y: display.context.canvas.height / 2 - world.player.height / 2,
+                x: -(world.player.width / 2),
+                y: -(world.player.height / 2),
+                offset: {
+                    x: 0.5,
+                    y: 0.5,
+                },
             },
         });
         // Foreground
@@ -116,12 +127,12 @@ function PlayState(display, gameStack) {
                 y: 0,
             },
             destination: {
-                x: display.buffer.canvas.width / 2 -
-                    world.width / 2 -
-                    world.player.getLeft(),
-                y: display.buffer.canvas.height / 2 -
-                    world.height / 2 -
-                    world.player.getTop(),
+                x: -world.width / 2 - world.player.getLeft(),
+                y: -world.height / 2 - world.player.getTop(),
+                offset: {
+                    x: 0.5,
+                    y: 0.5,
+                },
             },
             width: world.width,
             height: world.height,
@@ -131,14 +142,16 @@ function PlayState(display, gameStack) {
             display.drawObject({
                 color: 'rgba(255, 0, 0, 0.2)',
                 destination: {
-                    x: display.buffer.canvas.width / 2 -
-                        world.player.getLeft() +
-                        collisionObject.x -
-                        world.player.width / 2,
-                    y: display.buffer.canvas.height / 2 -
-                        world.player.getTop() +
-                        collisionObject.y -
-                        world.player.height / 2,
+                    x: -(world.player.getLeft() -
+                        collisionObject.x +
+                        world.player.width / 2),
+                    y: -(world.player.getTop() -
+                        collisionObject.y +
+                        world.player.height / 2),
+                    offset: {
+                        x: 0.5,
+                        y: 0.5,
+                    },
                 },
                 width: collisionObject.width,
                 height: collisionObject.height,

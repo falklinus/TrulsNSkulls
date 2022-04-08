@@ -25,7 +25,17 @@ function FadeState({ color, direction, duration, display, gameStack, toState, })
     function update() { }
     function render() {
         toState.render();
-        display.drawObject({ color: renderColor(), destination: { x: 0, y: 0 } });
+        display.drawObject({
+            color: renderColor(),
+            destination: {
+                x: 0,
+                y: 0,
+                offset: {
+                    x: 0,
+                    y: 0,
+                },
+            },
+        });
     }
     return {
         name,
