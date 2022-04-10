@@ -89,8 +89,9 @@ class Display {
     this.buffer.canvas.height = this.context.canvas.height
     this.buffer.canvas.width = this.context.canvas.width
 
-    this.scale_x = this.buffer.canvas.width / 1920
-    this.scale_y = this.buffer.canvas.height / 1080
+    this.scale_x = this.buffer.canvas.width / 1280
+
+    this.scale_y = this.buffer.canvas.height / 720
 
     this.context.imageSmoothingEnabled = false
   }

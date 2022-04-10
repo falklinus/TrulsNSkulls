@@ -4,20 +4,117 @@ import GameObject from './GameObject.js'
 import CollisionManager from './CollisionManager.js'
 
 class World {
-  background = new Image()
-  foreground = new Image()
+  backgrounds: HTMLImageElement[] = []
+  foregrounds: HTMLImageElement[] = []
+  // background = new Image()
+  // foreground = new Image()
   width: number
   height: number
-
-  player = new Player({ x: 0, y: 1200 })
+  activeImage = 0
+  player = new Player({ x: 0, y: 0 })
   collisionManager: CollisionManager
 
-  constructor() {
-    this.background.src = '../assets/world/background.png'
-    this.foreground.src = '../assets/world/foreground.png'
+  world: { image: HTMLImageElement; position: GameObject }[] = [
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: -5400,
+        y: -5400,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: -1800,
+        y: -5400,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: 1800,
+        y: -5400,
+        width: 3600,
+        height: 3600,
+      }),
+    },
 
-    this.width = this.background.width
-    this.height = this.background.height
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: -5400,
+        y: -1800,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: -1800,
+        y: -1800,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: 1800,
+        y: -1800,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: -5400,
+        y: 1800,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: -1800,
+        y: 1800,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+    {
+      image: new Image(),
+      position: new GameObject({
+        x: 1800,
+        y: 1800,
+        width: 3600,
+        height: 3600,
+      }),
+    },
+  ]
+
+  constructor() {
+    // this.background.src = '../assets/world/background.png'
+    // this.foreground.src = '../assets/world/foreground.png'
+
+    for (let i = 0; i < 2; i++) {
+      this.backgrounds.push(new Image())
+      this.backgrounds[i].src = '../assets/world/background.png'
+      this.foregrounds.push(new Image())
+      this.foregrounds[i].src = '../assets/world/foreground.png'
+    }
+
+    this.width = this.backgrounds[this.activeImage].width
+    this.height = this.backgrounds[this.activeImage].height
+    // this.width = this.background.width
+    // this.height = this.background.height
 
     this.collisionManager = new CollisionManager({
       data: collisionMapData.data,

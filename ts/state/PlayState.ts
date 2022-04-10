@@ -34,7 +34,47 @@ function PlayState(display: Display, gameStack: StateStack) {
     window.removeEventListener('keyup', keyDownUp)
   }
 
+  let prevWorldIndex: number
+  let prevInnerMapIndex = {
+    x: 0,
+    y: 0,
+  }
+
   function update() {
+    const worldIndex = world.world.findIndex((worldPart) =>
+      world.collisionManager.allSidesCollision(
+        worldPart.position,
+        world.player,
+        { isPlayer: false }
+      )
+    )
+    if (worldIndex !== prevWorldIndex) {
+      prevWorldIndex = worldIndex
+      console.log('world tile: ', {
+        x: worldIndex % 3,
+        y: Math.floor(worldIndex / 3),
+      })
+    }
+
+    const innerMapIndex = {
+      x:
+        world.player.getLeft() < world.world[worldIndex].position.getCenterX()
+          ? 0
+          : 1,
+      y:
+        world.player.getTop() < world.world[worldIndex].position.getCenterY()
+          ? 0
+          : 1,
+    }
+
+    if (
+      innerMapIndex.x !== prevInnerMapIndex.x ||
+      innerMapIndex.y !== prevInnerMapIndex.y
+    ) {
+      prevInnerMapIndex = innerMapIndex
+      console.log('position in tile: ', innerMapIndex)
+    }
+
     if (!running) return
     if (world.player.moving && world.isEncounter()) console.log('ENCOUNTER')
     movePlayer()
@@ -42,49 +82,51 @@ function PlayState(display: Display, gameStack: StateStack) {
 
   function render() {
     // Background
-    display.drawObject({
-      source: {
-        image: world.background,
-        x: 0,
-        y: 0,
-      },
-      destination: {
-        x: -world.width / 2 - world.player.getLeft(),
-        y: -world.height / 2 - world.player.getTop(),
-        offset: {
-          x: 0.5,
-          y: 0.5,
-        },
-      },
-
-      width: world.width,
-      height: world.height,
-    })
-
-    // BattleZones
-    for (let battleObject of world.collisionManager.battleObjects) {
+    for (let i = 0; i < world.backgrounds.length; i++) {
       display.drawObject({
-        color: 'rgba(255, 0, 255, 0.5)',
+        source: {
+          image: world.backgrounds[i],
+          x: 0,
+          y: 0,
+        },
         destination: {
-          x: -(
-            world.player.getLeft() -
-            battleObject.x +
-            world.player.width / 2
-          ),
-          y: -(
-            world.player.getTop() -
-            battleObject.y +
-            world.player.height / 2
-          ),
+          x: -world.width / 2 - world.player.getLeft() + world.width * i,
+          y: -world.height / 2 - world.player.getTop(),
           offset: {
             x: 0.5,
             y: 0.5,
           },
         },
-        width: battleObject.width,
-        height: battleObject.height,
+
+        width: world.width,
+        height: world.height,
       })
     }
+
+    // BattleZones
+    // for (let battleObject of world.collisionManager.battleObjects) {
+    //   display.drawObject({
+    //     color: 'rgba(255, 0, 255, 0.5)',
+    //     destination: {
+    //       x: -(
+    //         world.player.getLeft() -
+    //         battleObject.x +
+    //         world.player.width / 2
+    //       ),
+    //       y: -(
+    //         world.player.getTop() -
+    //         battleObject.y +
+    //         world.player.height / 2
+    //       ),
+    //       offset: {
+    //         x: 0.5,
+    //         y: 0.5,
+    //       },
+    //     },
+    //     width: battleObject.width,
+    //     height: battleObject.height,
+    //   })
+    // }
 
     const playerShadow = new Image()
     playerShadow.src = '../assets/player/playerShadow.png'
@@ -109,19 +151,19 @@ function PlayState(display: Display, gameStack: StateStack) {
     })
 
     // Player battle collisionbox
-    display.drawObject({
-      color: 'rgba(0, 0, 255, 0.5)',
-      width: 36,
-      height: 36,
-      destination: {
-        x: -18,
-        y: 12,
-        offset: {
-          x: 0.5,
-          y: 0.5,
-        },
-      },
-    })
+    // display.drawObject({
+    //   color: 'rgba(0, 0, 255, 0.5)',
+    //   width: 36,
+    //   height: 36,
+    //   destination: {
+    //     x: -18,
+    //     y: 12,
+    //     offset: {
+    //       x: 0.5,
+    //       y: 0.5,
+    //     },
+    //   },
+    // })
 
     // Player
     display.drawObject({
@@ -142,48 +184,50 @@ function PlayState(display: Display, gameStack: StateStack) {
     })
 
     // Foreground
-    display.drawObject({
-      source: {
-        image: world.foreground,
-        x: 0,
-        y: 0,
-      },
-      destination: {
-        x: -world.width / 2 - world.player.getLeft(),
-        y: -world.height / 2 - world.player.getTop(),
-        offset: {
-          x: 0.5,
-          y: 0.5,
-        },
-      },
-      width: world.width,
-      height: world.height,
-    })
-
-    // Collisionboxes
-    for (let collisionObject of world.collisionManager.normal) {
+    for (let i = 0; i < world.foregrounds.length; i++) {
       display.drawObject({
-        color: 'rgba(255, 0, 0, 0.2)',
+        source: {
+          image: world.foregrounds[i],
+          x: 0,
+          y: 0,
+        },
         destination: {
-          x: -(
-            world.player.getLeft() -
-            collisionObject.x +
-            world.player.width / 2
-          ),
-          y: -(
-            world.player.getTop() -
-            collisionObject.y +
-            world.player.height / 2
-          ),
+          x: -world.width / 2 - world.player.getLeft() + world.width * i,
+          y: -world.height / 2 - world.player.getTop(),
           offset: {
             x: 0.5,
             y: 0.5,
           },
         },
-        width: collisionObject.width,
-        height: collisionObject.height,
+        width: world.width,
+        height: world.height,
       })
     }
+
+    // Collisionboxes
+    // for (let collisionObject of world.collisionManager.normal) {
+    //   display.drawObject({
+    //     color: 'rgba(255, 0, 0, 0.2)',
+    //     destination: {
+    //       x: -(
+    //         world.player.getLeft() -
+    //         collisionObject.x +
+    //         world.player.width / 2
+    //       ),
+    //       y: -(
+    //         world.player.getTop() -
+    //         collisionObject.y +
+    //         world.player.height / 2
+    //       ),
+    //       offset: {
+    //         x: 0.5,
+    //         y: 0.5,
+    //       },
+    //     },
+    //     width: collisionObject.width,
+    //     height: collisionObject.height,
+    //   })
+    // }
   }
 
   function onPause() {

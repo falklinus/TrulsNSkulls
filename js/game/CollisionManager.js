@@ -106,9 +106,9 @@ class CollisionManager {
         return false;
     }
     allSidesCollision(object1, object2, { isPlayer = false }) {
-        return (object2.getLeft() < object1.getRight() &&
-            object2.getRight() > object1.getLeft() &&
-            object2.getTop() < object1.getBottom() &&
+        return (object2.getLeft() < object1.getRight() - 4 &&
+            object2.getRight() > object1.getLeft() + 4 &&
+            object2.getTop() < object1.getBottom() - 4 &&
             object2.getBottom() > (isPlayer ? object1.getCenterY() : object1.getTop()));
     }
     willCollide(playerObject) {
