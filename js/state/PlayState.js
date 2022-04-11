@@ -31,24 +31,25 @@ function PlayState(display, gameStack) {
         y: 0,
     };
     function update() {
-        const worldIndex = world.world.findIndex((worldPart) => world.collisionManager.allSidesCollision(worldPart.position, world.player, { isPlayer: false }));
+        const worldIndex = world.world.tiles.findIndex((worldPart) => world.collisionManager.allSidesCollision(worldPart.position, world.player, { isPlayer: false }));
         if (worldIndex !== prevWorldIndex) {
+            world.activeIndex = worldIndex;
             prevWorldIndex = worldIndex;
             console.log('world tile: ', {
-                x: worldIndex % 3,
-                y: Math.floor(worldIndex / 3),
+                x: worldIndex % world.worldTiles.cols,
+                y: Math.floor(worldIndex / world.worldTiles.cols),
             });
         }
         const innerMapIndex = {
-            x: world.player.getLeft() < world.world[worldIndex].position.getCenterX()
-                ? 0
-                : 1,
-            y: world.player.getTop() < world.world[worldIndex].position.getCenterY()
+            x: world.player.getLeft() < world.activeTile.position.getCenterX() ? 0 : 1,
+            y: world.player.getTop() <
+                world.world.tiles[worldIndex].position.getCenterY()
                 ? 0
                 : 1,
         };
         if (innerMapIndex.x !== prevInnerMapIndex.x ||
             innerMapIndex.y !== prevInnerMapIndex.y) {
+            world.setRenderTiles({ innerPosition: innerMapIndex });
             prevInnerMapIndex = innerMapIndex;
             console.log('position in tile: ', innerMapIndex);
         }
@@ -60,16 +61,16 @@ function PlayState(display, gameStack) {
     }
     function render() {
         // Background
-        for (let i = 0; i < world.backgrounds.length; i++) {
+        for (let background of world.backgrounds) {
             display.drawObject({
                 source: {
-                    image: world.backgrounds[i],
+                    image: background.image,
                     x: 0,
                     y: 0,
                 },
                 destination: {
-                    x: -world.width / 2 - world.player.getLeft() + world.width * i,
-                    y: -world.height / 2 - world.player.getTop(),
+                    x: -world.player.getLeft() + background.position.x,
+                    y: -world.player.getTop() + background.position.y,
                     offset: {
                         x: 0.5,
                         y: 0.5,
@@ -152,16 +153,16 @@ function PlayState(display, gameStack) {
             },
         });
         // Foreground
-        for (let i = 0; i < world.foregrounds.length; i++) {
+        for (let foreground of world.foregrounds) {
             display.drawObject({
                 source: {
-                    image: world.foregrounds[i],
+                    image: foreground.image,
                     x: 0,
                     y: 0,
                 },
                 destination: {
-                    x: -world.width / 2 - world.player.getLeft() + world.width * i,
-                    y: -world.height / 2 - world.player.getTop(),
+                    x: -world.player.getLeft() + foreground.position.x,
+                    y: -world.player.getTop() + foreground.position.y,
                     offset: {
                         x: 0.5,
                         y: 0.5,
