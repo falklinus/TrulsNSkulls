@@ -25,44 +25,7 @@ function PlayState(display, gameStack) {
         window.removeEventListener('keydown', keyDownUp);
         window.removeEventListener('keyup', keyDownUp);
     }
-    let prevWorldIndex;
-    let prevInnerMapIndex = {
-        x: 0,
-        y: 0,
-    };
     function update() {
-        // const worldIndex = world.world.tiles.findIndex((worldPart) =>
-        //   world.collisionManager.allSidesCollision(
-        //     worldPart.position,
-        //     world.player,
-        //     { isPlayer: false }
-        //   )
-        // )
-        // if (worldIndex !== prevWorldIndex) {
-        //   world.activeIndex = worldIndex
-        //   prevWorldIndex = worldIndex
-        //   console.log('world tile: ', {
-        //     x: worldIndex % world.worldTiles.cols,
-        //     y: Math.floor(worldIndex / world.worldTiles.cols),
-        //   })
-        // }
-        // const innerMapIndex = {
-        //   x:
-        //     world.player.getLeft() < world.activeTile.position.getCenterX() ? 0 : 1,
-        //   y:
-        //     world.player.getTop() <
-        //     world.world.tiles[worldIndex].position.getCenterY()
-        //       ? 0
-        //       : 1,
-        // }
-        // if (
-        //   innerMapIndex.x !== prevInnerMapIndex.x ||
-        //   innerMapIndex.y !== prevInnerMapIndex.y
-        // ) {
-        //   world.setRenderTiles({ innerPosition: innerMapIndex })
-        //   prevInnerMapIndex = innerMapIndex
-        //   console.log('position in tile: ', innerMapIndex)
-        // }
         world.update();
         if (!running)
             return;
@@ -80,8 +43,8 @@ function PlayState(display, gameStack) {
                     y: 0,
                 },
                 destination: {
-                    x: -world.player.getLeft() + background.position.x,
-                    y: -world.player.getTop() + background.position.y,
+                    x: -world.player.getCenterX() + background.position.x,
+                    y: -world.player.getCenterY() + background.position.y,
                     offset: {
                         x: 0.5,
                         y: 0.5,
@@ -172,8 +135,8 @@ function PlayState(display, gameStack) {
                     y: 0,
                 },
                 destination: {
-                    x: -world.player.getLeft() + foreground.position.x,
-                    y: -world.player.getTop() + foreground.position.y,
+                    x: -world.player.getCenterX() + foreground.position.x,
+                    y: -world.player.getCenterY() + foreground.position.y,
                     offset: {
                         x: 0.5,
                         y: 0.5,
@@ -184,29 +147,21 @@ function PlayState(display, gameStack) {
             });
         }
         // Collisionboxes
-        // for (let collisionObject of world.collisionManager.normal) {
-        //   display.drawObject({
-        //     color: 'rgba(255, 0, 0, 0.2)',
-        //     destination: {
-        //       x: -(
-        //         world.player.getLeft() -
-        //         collisionObject.x +
-        //         world.player.width / 2
-        //       ),
-        //       y: -(
-        //         world.player.getTop() -
-        //         collisionObject.y +
-        //         world.player.height / 2
-        //       ),
-        //       offset: {
-        //         x: 0.5,
-        //         y: 0.5,
-        //       },
-        //     },
-        //     width: collisionObject.width,
-        //     height: collisionObject.height,
-        //   })
-        // }
+        for (let collisionObject of world.map.activeTile.collisionManager.normal) {
+            display.drawObject({
+                color: 'rgba(255, 0, 0, 0.2)',
+                destination: {
+                    x: -(world.player.getCenterX() - collisionObject.x),
+                    y: -(world.player.getCenterY() - collisionObject.y),
+                    offset: {
+                        x: 0.5,
+                        y: 0.5,
+                    },
+                },
+                width: collisionObject.width,
+                height: collisionObject.height,
+            });
+        }
     }
     function onPause() {
         running = false;

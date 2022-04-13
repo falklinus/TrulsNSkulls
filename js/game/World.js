@@ -1,29 +1,14 @@
 import Player from './Player.js';
-import collisionMapData from './data/collisionMap.js';
 import GameObject from './GameObject.js';
-import CollisionManager from './CollisionManager.js';
 import Map from './Map.js';
 class World {
     constructor() {
-        this.player = new Player({ x: 0, y: 0 });
+        this.player = new Player({ x: 100, y: 2000 });
         this.map = new Map({ index: 0, playerPosition: { x: 0, y: 0 } });
-        this.collisionManager = new CollisionManager({
-            data: collisionMapData.data,
-            tiles: {
-                width: collisionMapData.tileSize.width,
-                height: collisionMapData.tileSize.height,
-                cols: collisionMapData.width,
-                rows: collisionMapData.height,
-            },
-            offset: {
-                x: this.map.activeTile.position.width / 2 - this.player.width / 2,
-                y: this.map.activeTile.position.height / 2 - this.player.height / 2,
-            },
-        });
         this.update();
     }
     update() {
-        const mapIndex = this.map.tiles.findIndex((tile) => this.collisionManager.allSidesCollision(tile.position, this.player, {
+        const mapIndex = this.map.tiles.findIndex((tile) => tile.collisionManager.allSidesCollision(tile.position, this.player, {
             isPlayer: false,
         }));
         if (mapIndex === -1)
@@ -40,7 +25,7 @@ class World {
         }
     }
     isEncounter() {
-        return this.collisionManager.isEncounter(this.player, {
+        return this.map.activeTile.collisionManager.isEncounter(this.player, {
             encounterRate: 1,
         });
     }
@@ -57,7 +42,7 @@ class World {
         switch (direction) {
             case 'left':
                 playerObject.setLeft(playerObject.getLeft() - speed);
-                while (this.collisionManager.willCollide(playerObject)) {
+                while (this.map.activeTile.collisionManager.willCollide(playerObject)) {
                     playerObject.setLeft(playerObject.getLeft() + 1);
                     speed--;
                 }
@@ -65,7 +50,7 @@ class World {
                 break;
             case 'right':
                 playerObject.setRight(playerObject.getRight() + speed);
-                while (this.collisionManager.willCollide(playerObject)) {
+                while (this.map.activeTile.collisionManager.willCollide(playerObject)) {
                     playerObject.setRight(playerObject.getRight() - 1);
                     speed--;
                 }
@@ -73,7 +58,7 @@ class World {
                 break;
             case 'up':
                 playerObject.setTop(playerObject.getTop() - speed);
-                while (this.collisionManager.willCollide(playerObject)) {
+                while (this.map.activeTile.collisionManager.willCollide(playerObject)) {
                     playerObject.setTop(playerObject.getTop() + 1);
                     speed--;
                 }
@@ -81,7 +66,7 @@ class World {
                 return speed > 0;
             case 'down':
                 playerObject.setBottom(playerObject.getBottom() + speed);
-                while (this.collisionManager.willCollide(playerObject)) {
+                while (this.map.activeTile.collisionManager.willCollide(playerObject)) {
                     playerObject.setBottom(playerObject.getBottom() - 1);
                     speed--;
                 }

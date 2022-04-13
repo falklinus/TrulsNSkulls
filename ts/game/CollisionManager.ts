@@ -35,8 +35,8 @@ class CollisionManager {
           case 4096:
             this.normal.push(
               new GameObject({
-                x: x * width - offset.x,
-                y: y * height - offset.y,
+                x: x * width + offset.x,
+                y: y * height + offset.y,
                 width: width,
                 height: height,
               })
@@ -46,8 +46,8 @@ class CollisionManager {
           case 300:
             this.battleObjects.push(
               new GameObject({
-                x: x * width - offset.x,
-                y: y * height - offset.y,
+                x: x * width + offset.x,
+                y: y * height + offset.y,
                 width: width,
                 height: height,
               })

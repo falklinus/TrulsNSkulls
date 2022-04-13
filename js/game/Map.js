@@ -22,40 +22,69 @@ class Map {
         return (this.playerPosition.x !== playerPosition.x ||
             this.playerPosition.y !== playerPosition.y);
     }
+    positionIn(tile) {
+        const bgIndex = this.backgrounds.findIndex((bg) => bg.position == tile.position);
+        const fgIndex = this.foregrounds.findIndex((fg) => fg.position == tile.position);
+        if (bgIndex === -1 && fgIndex === -1)
+            return false;
+        return {
+            bgIndex,
+            fgIndex,
+        };
+    }
     update(playerPosition) {
         this.playerPosition = playerPosition;
         const { x, y } = playerPosition;
-        const renderTiles = [];
+        const newTiles = [];
+        let backgrounds = [];
+        let foregrounds = [];
         console.log(playerPosition);
-        renderTiles.push(this.activeTile);
-        if (x == 0 && !this.onfirstColumn()) {
-            renderTiles.push(this.left());
-            if (y == 0 && !this.onfirstRow()) {
-                renderTiles.push(this.topLeft());
+        console.log(this.activeTile);
+        const shouldBePushed = () => {
+            let res = [this.activeTile];
+            if (x == 0 && y == 0) {
+                if (!this.onFirstColumn()) {
+                    res.push(this.left());
+                    res.push(this.topLeft());
+                }
+                res.push(this.top());
             }
-            else if (y == 1 && !this.onlastRow()) {
-                renderTiles.push(this.bottomLeft());
+            else if (x == 1 && y == 0) {
+                if (!this.onLastColumn()) {
+                    res.push(this.right());
+                    res.push(this.topRight());
+                }
+                res.push(this.top());
             }
-        }
-        else if (x == 1 && !this.onlastColumn()) {
-            renderTiles.push(this.right());
-            if (y == 0 && !this.onfirstRow()) {
-                renderTiles.push(this.topRight());
+            else if (x == 0 && y == 1) {
+                if (!this.onFirstColumn()) {
+                    res.push(this.left());
+                    res.push(this.bottomLeft());
+                }
+                res.push(this.bottom());
             }
-            else if (y == 1 && !this.onlastRow()) {
-                renderTiles.push(this.bottomRight());
+            else if (x == 1 && y == 1) {
+                if (!this.onLastColumn()) {
+                    res.push(this.right());
+                    res.push(this.bottomRight());
+                }
+                res.push(this.bottom());
             }
-        }
-        if (y == 0 && !this.onfirstRow()) {
-            renderTiles.push(this.top());
-        }
-        else if (y == 1 && !this.onlastRow()) {
-            renderTiles.push(this.bottom());
-        }
-        console.log(renderTiles);
-        const backgrounds = [];
-        const foregrounds = [];
-        for (let tile of renderTiles) {
+            res = res.filter((tile) => tile);
+            return res;
+        };
+        shouldBePushed().forEach((tile) => {
+            console.log('tile', tile);
+            const index = this.positionIn(tile);
+            if (!index)
+                newTiles.push(tile);
+            else {
+                backgrounds.push(...this.backgrounds.splice(index.bgIndex, 1));
+                foregrounds.push(...this.foregrounds.splice(index.fgIndex, 1));
+            }
+        });
+        console.log('newTiles', newTiles);
+        for (let tile of newTiles) {
             const background = new Image();
             background.src = tile.background;
             backgrounds.push({ image: background, position: tile.position });
@@ -63,16 +92,17 @@ class Map {
             foreground.src = tile.foreground;
             foregrounds.push({ image: foreground, position: tile.position });
         }
+        console.log('backgrounds', backgrounds);
         this.backgrounds = backgrounds;
         this.foregrounds = foregrounds;
     }
-    onfirstColumn() {
+    onFirstColumn() {
         return this.activeIndex % mapData.cols === 0;
     }
-    onlastColumn() {
+    onLastColumn() {
         return this.activeIndex % mapData.cols === mapData.cols - 1;
     }
-    onfirstRow() {
+    onFirstRow() {
         return Math.floor(this.activeIndex / mapData.cols) === 0;
     }
     onlastRow() {

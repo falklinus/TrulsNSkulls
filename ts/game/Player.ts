@@ -19,7 +19,7 @@ class Player extends GameObject {
       frames: sprite.frames,
     }
   })
-  sprite = new Sprite({ ...this.spriteSet[0] })
+  sprite: Sprite = new Sprite({ ...this.spriteSet[0] })
 
   constructor({ x, y }: { x: number; y: number }) {
     super({
