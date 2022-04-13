@@ -171,9 +171,9 @@ class CollisionManager {
     { isPlayer = false }: { isPlayer: boolean }
   ) {
     return (
-      object2.getLeft() < object1.getRight() - 4 &&
-      object2.getRight() > object1.getLeft() + 4 &&
-      object2.getTop() < object1.getBottom() - 4 &&
+      object2.getLeft() < object1.getRight() - (isPlayer ? 4 : 0) &&
+      object2.getRight() > object1.getLeft() + (isPlayer ? 4 : 0) &&
+      object2.getTop() < object1.getBottom() - (isPlayer ? 4 : 0) &&
       object2.getBottom() > (isPlayer ? object1.getCenterY() : object1.getTop())
     )
   }

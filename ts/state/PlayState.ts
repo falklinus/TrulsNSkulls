@@ -41,42 +41,42 @@ function PlayState(display: Display, gameStack: StateStack) {
   }
 
   function update() {
-    const worldIndex = world.world.tiles.findIndex((worldPart) =>
-      world.collisionManager.allSidesCollision(
-        worldPart.position,
-        world.player,
-        { isPlayer: false }
-      )
-    )
-    if (worldIndex !== prevWorldIndex) {
-      world.activeIndex = worldIndex
-      prevWorldIndex = worldIndex
-      console.log('world tile: ', {
-        x: worldIndex % world.worldTiles.cols,
-        y: Math.floor(worldIndex / world.worldTiles.cols),
-      })
-    }
+    // const worldIndex = world.world.tiles.findIndex((worldPart) =>
+    //   world.collisionManager.allSidesCollision(
+    //     worldPart.position,
+    //     world.player,
+    //     { isPlayer: false }
+    //   )
+    // )
+    // if (worldIndex !== prevWorldIndex) {
+    //   world.activeIndex = worldIndex
+    //   prevWorldIndex = worldIndex
+    //   console.log('world tile: ', {
+    //     x: worldIndex % world.worldTiles.cols,
+    //     y: Math.floor(worldIndex / world.worldTiles.cols),
+    //   })
+    // }
 
-    const innerMapIndex = {
-      x:
-        world.player.getLeft() < world.activeTile.position.getCenterX() ? 0 : 1,
-      y:
-        world.player.getTop() <
-        world.world.tiles[worldIndex].position.getCenterY()
-          ? 0
-          : 1,
-    }
+    // const innerMapIndex = {
+    //   x:
+    //     world.player.getLeft() < world.activeTile.position.getCenterX() ? 0 : 1,
+    //   y:
+    //     world.player.getTop() <
+    //     world.world.tiles[worldIndex].position.getCenterY()
+    //       ? 0
+    //       : 1,
+    // }
 
-    if (
-      innerMapIndex.x !== prevInnerMapIndex.x ||
-      innerMapIndex.y !== prevInnerMapIndex.y
-    ) {
-      world.setRenderTiles({ innerPosition: innerMapIndex })
+    // if (
+    //   innerMapIndex.x !== prevInnerMapIndex.x ||
+    //   innerMapIndex.y !== prevInnerMapIndex.y
+    // ) {
+    //   world.setRenderTiles({ innerPosition: innerMapIndex })
 
-      prevInnerMapIndex = innerMapIndex
-      console.log('position in tile: ', innerMapIndex)
-    }
-
+    //   prevInnerMapIndex = innerMapIndex
+    //   console.log('position in tile: ', innerMapIndex)
+    // }
+    world.update()
     if (!running) return
     if (world.player.moving && world.isEncounter()) console.log('ENCOUNTER')
     movePlayer()
@@ -84,7 +84,7 @@ function PlayState(display: Display, gameStack: StateStack) {
 
   function render() {
     // Background
-    for (let background of world.backgrounds) {
+    for (let background of world.map.backgrounds) {
       display.drawObject({
         source: {
           image: background.image,
@@ -100,8 +100,8 @@ function PlayState(display: Display, gameStack: StateStack) {
           },
         },
 
-        width: world.width,
-        height: world.height,
+        width: background.image.width,
+        height: background.image.height,
       })
     }
 
@@ -186,7 +186,7 @@ function PlayState(display: Display, gameStack: StateStack) {
     })
 
     // Foreground
-    for (let foreground of world.foregrounds) {
+    for (let foreground of world.map.foregrounds) {
       display.drawObject({
         source: {
           image: foreground.image,
@@ -201,8 +201,8 @@ function PlayState(display: Display, gameStack: StateStack) {
             y: 0.5,
           },
         },
-        width: world.width,
-        height: world.height,
+        width: foreground.image.width,
+        height: foreground.image.height,
       })
     }
 
