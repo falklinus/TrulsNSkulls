@@ -38,8 +38,8 @@ class Map {
         const newTiles = [];
         let backgrounds = [];
         let foregrounds = [];
-        console.log(playerPosition);
-        console.log(this.activeTile);
+        // console.log(playerPosition)
+        // console.log(this.activeTile)
         const shouldBePushed = () => {
             let res = [this.activeTile];
             if (x == 0 && y == 0) {
@@ -74,7 +74,7 @@ class Map {
             return res;
         };
         shouldBePushed().forEach((tile) => {
-            console.log('tile', tile);
+            // console.log('tile', tile)
             const index = this.positionIn(tile);
             if (!index)
                 newTiles.push(tile);
@@ -83,7 +83,7 @@ class Map {
                 foregrounds.push(...this.foregrounds.splice(index.fgIndex, 1));
             }
         });
-        console.log('newTiles', newTiles);
+        // console.log('newTiles', newTiles)
         for (let tile of newTiles) {
             const background = new Image();
             background.src = tile.background;
@@ -92,7 +92,7 @@ class Map {
             foreground.src = tile.foreground;
             foregrounds.push({ image: foreground, position: tile.position });
         }
-        console.log('backgrounds', backgrounds);
+        // console.log('backgrounds', backgrounds)
         this.backgrounds = backgrounds;
         this.foregrounds = foregrounds;
     }

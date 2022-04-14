@@ -1,6 +1,8 @@
 import Controller from '../Controller.js';
 import World from '../game/World.js';
 import Menu from '../game/menu.js';
+import FadeState from './FadeState.js';
+import BattleState from './BattleState.js';
 function PlayState(display, gameStack) {
     const name = 'PlayState';
     const controller = Controller();
@@ -29,8 +31,27 @@ function PlayState(display, gameStack) {
         world.update();
         if (!running)
             return;
-        if (world.player.moving && world.isEncounter())
+        if (world.player.moving && world.isEncounter()) {
             console.log('ENCOUNTER');
+            gameStack.push(FadeState({
+                color: { r: 255, g: 255, b: 255 },
+                direction: 'out',
+                duration: 200,
+                repeat: 10,
+                display,
+                gameStack,
+                toState: FadeState({
+                    color: { r: 255, g: 255, b: 255 },
+                    direction: 'in',
+                    duration: 1000,
+                    repeat: 1,
+                    display,
+                    gameStack,
+                    toState: BattleState({ display }),
+                }),
+            }));
+            //BattleState({ display }),
+        }
         movePlayer();
     }
     function render() {
@@ -55,29 +76,22 @@ function PlayState(display, gameStack) {
             });
         }
         // BattleZones
-        // for (let battleObject of world.collisionManager.battleObjects) {
-        //   display.drawObject({
-        //     color: 'rgba(255, 0, 255, 0.5)',
-        //     destination: {
-        //       x: -(
-        //         world.player.getLeft() -
-        //         battleObject.x +
-        //         world.player.width / 2
-        //       ),
-        //       y: -(
-        //         world.player.getTop() -
-        //         battleObject.y +
-        //         world.player.height / 2
-        //       ),
-        //       offset: {
-        //         x: 0.5,
-        //         y: 0.5,
-        //       },
-        //     },
-        //     width: battleObject.width,
-        //     height: battleObject.height,
-        //   })
-        // }
+        for (let battleObject of world.map.activeTile.collisionManager
+            .battleObjects) {
+            display.drawObject({
+                color: 'rgba(255, 0, 255, 0.5)',
+                destination: {
+                    x: -(world.player.getCenterX() - battleObject.x),
+                    y: -(world.player.getCenterY() - battleObject.y),
+                    offset: {
+                        x: 0.5,
+                        y: 0.5,
+                    },
+                },
+                width: battleObject.width,
+                height: battleObject.height,
+            });
+        }
         const playerShadow = new Image();
         playerShadow.src = '../assets/player/playerShadow.png';
         // Player shadow
@@ -99,20 +113,21 @@ function PlayState(display, gameStack) {
             },
         });
         // Player battle collisionbox
-        // display.drawObject({
-        //   color: 'rgba(0, 0, 255, 0.5)',
-        //   width: 36,
-        //   height: 36,
-        //   destination: {
-        //     x: -18,
-        //     y: 12,
-        //     offset: {
-        //       x: 0.5,
-        //       y: 0.5,
-        //     },
-        //   },
-        // })
+        display.drawObject({
+            color: 'rgba(0, 0, 255, 0.5)',
+            width: 36,
+            height: 36,
+            destination: {
+                x: -18,
+                y: 12,
+                offset: {
+                    x: 0.5,
+                    y: 0.5,
+                },
+            },
+        });
         // Player
+        // console.log(world.player.width)
         display.drawObject({
             source: Object.assign({ image: world.player.sprite.image }, world.player.sprite.position),
             width: world.player.width,

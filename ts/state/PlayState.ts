@@ -3,6 +3,8 @@ import Display from '../Display.js'
 import World from '../game/World.js'
 import Menu from '../game/menu.js'
 import { StateStack } from './StateStack.js'
+import FadeState from './FadeState.js'
+import BattleState from './BattleState.js'
 
 function PlayState(display: Display, gameStack: StateStack) {
   const name = 'PlayState'
@@ -37,7 +39,29 @@ function PlayState(display: Display, gameStack: StateStack) {
   function update() {
     world.update()
     if (!running) return
-    if (world.player.moving && world.isEncounter()) console.log('ENCOUNTER')
+    if (world.player.moving && world.isEncounter()) {
+      console.log('ENCOUNTER')
+      gameStack.push(
+        FadeState({
+          color: { r: 255, g: 255, b: 255 },
+          direction: 'out',
+          duration: 200,
+          repeat: 10,
+          display,
+          gameStack,
+          toState: FadeState({
+            color: { r: 255, g: 255, b: 255 },
+            direction: 'in',
+            duration: 1000,
+            repeat: 1,
+            display,
+            gameStack,
+            toState: BattleState({ display }),
+          }),
+        })
+      )
+      //BattleState({ display }),
+    }
     movePlayer()
   }
 
@@ -65,29 +89,22 @@ function PlayState(display: Display, gameStack: StateStack) {
     }
 
     // BattleZones
-    // for (let battleObject of world.collisionManager.battleObjects) {
-    //   display.drawObject({
-    //     color: 'rgba(255, 0, 255, 0.5)',
-    //     destination: {
-    //       x: -(
-    //         world.player.getLeft() -
-    //         battleObject.x +
-    //         world.player.width / 2
-    //       ),
-    //       y: -(
-    //         world.player.getTop() -
-    //         battleObject.y +
-    //         world.player.height / 2
-    //       ),
-    //       offset: {
-    //         x: 0.5,
-    //         y: 0.5,
-    //       },
-    //     },
-    //     width: battleObject.width,
-    //     height: battleObject.height,
-    //   })
-    // }
+    for (let battleObject of world.map.activeTile.collisionManager
+      .battleObjects) {
+      display.drawObject({
+        color: 'rgba(255, 0, 255, 0.5)',
+        destination: {
+          x: -(world.player.getCenterX() - battleObject.x),
+          y: -(world.player.getCenterY() - battleObject.y),
+          offset: {
+            x: 0.5,
+            y: 0.5,
+          },
+        },
+        width: battleObject.width,
+        height: battleObject.height,
+      })
+    }
 
     const playerShadow = new Image()
     playerShadow.src = '../assets/player/playerShadow.png'
@@ -112,21 +129,22 @@ function PlayState(display: Display, gameStack: StateStack) {
     })
 
     // Player battle collisionbox
-    // display.drawObject({
-    //   color: 'rgba(0, 0, 255, 0.5)',
-    //   width: 36,
-    //   height: 36,
-    //   destination: {
-    //     x: -18,
-    //     y: 12,
-    //     offset: {
-    //       x: 0.5,
-    //       y: 0.5,
-    //     },
-    //   },
-    // })
+    display.drawObject({
+      color: 'rgba(0, 0, 255, 0.5)',
+      width: 36,
+      height: 36,
+      destination: {
+        x: -18,
+        y: 12,
+        offset: {
+          x: 0.5,
+          y: 0.5,
+        },
+      },
+    })
 
     // Player
+    // console.log(world.player.width)
     display.drawObject({
       source: {
         image: world.player.sprite.image,

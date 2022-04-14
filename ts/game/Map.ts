@@ -67,8 +67,8 @@ class Map {
     const newTiles: MapTile[] = []
     let backgrounds: { image: HTMLImageElement; position: GameObject }[] = []
     let foregrounds: { image: HTMLImageElement; position: GameObject }[] = []
-    console.log(playerPosition)
-    console.log(this.activeTile)
+    // console.log(playerPosition)
+    // console.log(this.activeTile)
 
     const shouldBePushed = () => {
       let res = [this.activeTile]
@@ -103,7 +103,7 @@ class Map {
     }
 
     shouldBePushed().forEach((tile) => {
-      console.log('tile', tile)
+      // console.log('tile', tile)
       const index = this.positionIn(tile)
       if (!index) newTiles.push(tile)
       else {
@@ -112,7 +112,7 @@ class Map {
       }
     })
 
-    console.log('newTiles', newTiles)
+    // console.log('newTiles', newTiles)
     for (let tile of newTiles) {
       const background = new Image()
       background.src = tile.background
@@ -122,7 +122,7 @@ class Map {
       foregrounds.push({ image: foreground, position: tile.position })
     }
 
-    console.log('backgrounds', backgrounds)
+    // console.log('backgrounds', backgrounds)
     this.backgrounds = backgrounds
     this.foregrounds = foregrounds
   }

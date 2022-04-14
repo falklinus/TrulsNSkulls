@@ -3,7 +3,8 @@ import GameObject from './GameObject.js';
 import Map from './Map.js';
 class World {
     constructor() {
-        this.player = new Player({ x: 100, y: 2000 });
+        // player = new Player({ x: 2844, y: 3600 * 2 + 2800 })
+        this.player = new Player({ x: 2844, y: 3600 * 2 + 1400 });
         this.map = new Map({ index: 0, playerPosition: { x: 0, y: 0 } });
         this.update();
     }

@@ -28,8 +28,11 @@ class Player extends GameObject {
       width: 0,
       height: 0,
     })
-    this.width = this.sprite.width
-    this.height = this.sprite.height
+
+    this.sprite.image.onload = () => {
+      this.width = this.sprite.image.width / this.sprite.frames.cols
+      this.height = this.sprite.image.height / this.sprite.frames.rows
+    }
   }
 
   resetAnimation() {

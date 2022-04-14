@@ -12,7 +12,7 @@ class CollisionManager {
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
                 switch (data[index]) {
-                    case 4096:
+                    case 3073:
                         this.normal.push(new GameObject({
                             x: x * width + offset.x,
                             y: y * height + offset.y,
@@ -21,7 +21,7 @@ class CollisionManager {
                         }));
                 }
                 switch (data[index]) {
-                    case 300:
+                    case 3074:
                         this.battleObjects.push(new GameObject({
                             x: x * width + offset.x,
                             y: y * height + offset.y,

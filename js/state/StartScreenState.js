@@ -28,7 +28,8 @@ function StartScreenState(display, gameStack) {
             gameStack.push(FadeState({
                 color: { r: 0, g: 0, b: 0 },
                 direction: 'in',
-                duration: 2000,
+                duration: 1000,
+                repeat: 1,
                 display,
                 gameStack,
                 toState: playState,
