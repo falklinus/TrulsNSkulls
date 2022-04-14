@@ -68,6 +68,7 @@ function FadeState({
     //   gameStack.push(toState)
     // }, repeat * duration)
   }
+
   function onExit() {
     console.log('time', Date.now() - start)
     cancelAnimationFrame(frameId)
