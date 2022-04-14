@@ -64,6 +64,7 @@ function FadeState({
 
     // timeOutId = setTimeout(() => {
     //   gameStack.pop()
+
     //   gameStack.push(toState)
     // }, repeat * duration)
   }
