@@ -8,6 +8,9 @@ function StartScreenState(display: Display, gameStack: StateStack) {
   const name = 'MainMenuState'
   const controller = Controller()
 
+  const image = new Image()
+  image.src = '../../assets/mainmenu.png'
+
   let colorsArray: number[] = []
   let colorIndex: number = 0
 
@@ -57,7 +60,7 @@ function StartScreenState(display: Display, gameStack: StateStack) {
 
   function render() {
     display.drawObject({
-      color: 'black',
+      source: { image, x: 0, y: 0 },
       destination: {
         x: 0,
         y: 0,

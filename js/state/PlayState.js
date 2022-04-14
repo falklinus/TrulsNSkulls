@@ -75,22 +75,22 @@ function PlayState(display, gameStack) {
             });
         }
         // BattleZones
-        for (let battleObject of world.map.activeTile.collisionManager
-            .battleObjects) {
-            display.drawObject({
-                color: 'rgba(255, 0, 255, 0.5)',
-                destination: {
-                    x: -(world.player.getCenterX() - battleObject.x),
-                    y: -(world.player.getCenterY() - battleObject.y),
-                    offset: {
-                        x: 0.5,
-                        y: 0.5,
-                    },
-                },
-                width: battleObject.width,
-                height: battleObject.height,
-            });
-        }
+        // for (let battleObject of world.map.activeTile.collisionManager
+        //   .battleObjects) {
+        //   display.drawObject({
+        //     color: 'rgba(255, 0, 255, 0.5)',
+        //     destination: {
+        //       x: -(world.player.getCenterX() - battleObject.x),
+        //       y: -(world.player.getCenterY() - battleObject.y),
+        //       offset: {
+        //         x: 0.5,
+        //         y: 0.5,
+        //       },
+        //     },
+        //     width: battleObject.width,
+        //     height: battleObject.height,
+        //   })
+        // }
         const playerShadow = new Image();
         playerShadow.src = '../assets/player/playerShadow.png';
         // Player shadow
@@ -112,19 +112,19 @@ function PlayState(display, gameStack) {
             },
         });
         // Player battle collisionbox
-        display.drawObject({
-            color: 'rgba(0, 0, 255, 0.5)',
-            width: 36,
-            height: 36,
-            destination: {
-                x: -18,
-                y: 12,
-                offset: {
-                    x: 0.5,
-                    y: 0.5,
-                },
-            },
-        });
+        // display.drawObject({
+        //   color: 'rgba(0, 0, 255, 0.5)',
+        //   width: 36,
+        //   height: 36,
+        //   destination: {
+        //     x: -18,
+        //     y: 12,
+        //     offset: {
+        //       x: 0.5,
+        //       y: 0.5,
+        //     },
+        //   },
+        // })
         // Player
         // console.log(world.player.width)
         display.drawObject({
@@ -161,21 +161,21 @@ function PlayState(display, gameStack) {
             });
         }
         // Collisionboxes
-        for (let collisionObject of world.map.activeTile.collisionManager.normal) {
-            display.drawObject({
-                color: 'rgba(255, 0, 0, 0.2)',
-                destination: {
-                    x: -(world.player.getCenterX() - collisionObject.x),
-                    y: -(world.player.getCenterY() - collisionObject.y),
-                    offset: {
-                        x: 0.5,
-                        y: 0.5,
-                    },
-                },
-                width: collisionObject.width,
-                height: collisionObject.height,
-            });
-        }
+        // for (let collisionObject of world.map.activeTile.collisionManager.normal) {
+        //   display.drawObject({
+        //     color: 'rgba(255, 0, 0, 0.2)',
+        //     destination: {
+        //       x: -(world.player.getCenterX() - collisionObject.x),
+        //       y: -(world.player.getCenterY() - collisionObject.y),
+        //       offset: {
+        //         x: 0.5,
+        //         y: 0.5,
+        //       },
+        //     },
+        //     width: collisionObject.width,
+        //     height: collisionObject.height,
+        //   })
+        // }
     }
     function onPause() {
         running = false;

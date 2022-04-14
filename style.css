@@ -8,6 +8,13 @@
    License: none (public domain)
 */
 
+*,
+*::after,
+*::before {
+  font-family: PKMN;
+  font-size: 1.5vmin;
+}
+
 html,
 body,
 div,
@@ -313,4 +320,94 @@ body {
 
 .map-menu {
   flex: 1;
+}
+
+.battle-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+.battle-bottom-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  /* background-color: #a0938e; */
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 1px; */
+}
+
+.battle-bottom-box button {
+  border: none;
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+  background-color: #bbcca3;
+  /* height: 100%; */
+  /* border: 2px solid grey; */
+}
+.battle-bottom-box button:hover {
+  background-color: #d2e6b7;
+}
+
+.border-div {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  border-radius: 4px;
+}
+
+.battle-bottom-box > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #8c997a;
+}
+
+.battle-bottom-box > div > div {
+  background-color: #a4b38f;
+}
+
+.battle-bottom-box > div > div > div {
+  background-color: #bbcca3;
+}
+
+.battle-bottom-box > div > div > div > div {
+  background-color: #d2e6b7;
+}
+
+.battle-bottom-box > div > div > div > div > div {
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.battle-bottom-box .attacks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2px;
+  gap: 2px;
+}
+
+.battle-bottom-box .actions {
+  padding: 2px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* width: 50%; */
+  /* margin: 0 auto; */
+}
+
+.battle-bottom-box .actions li {
+  /* padding: 10px; */
+  width: 100%;
 }

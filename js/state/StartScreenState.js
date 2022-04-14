@@ -4,6 +4,8 @@ import PlayState from './PlayState.js';
 function StartScreenState(display, gameStack) {
     const name = 'MainMenuState';
     const controller = Controller();
+    const image = new Image();
+    image.src = '../../assets/mainmenu.png';
     let colorsArray = [];
     let colorIndex = 0;
     const textColor = () => `rgb(${colorsArray[colorIndex]}, ${colorsArray[colorIndex]}, ${colorsArray[colorIndex]})`;
@@ -42,7 +44,7 @@ function StartScreenState(display, gameStack) {
     }
     function render() {
         display.drawObject({
-            color: 'black',
+            source: { image, x: 0, y: 0 },
             destination: {
                 x: 0,
                 y: 0,
