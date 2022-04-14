@@ -28,8 +28,10 @@ class StateList {
 
 export class StateStack {
   states: StateList = new StateList()
+  frameRate: number
 
-  constructor() {
+  constructor({ frameRate = 30 }: { frameRate: number }) {
+    this.frameRate = frameRate
     this.states.push(EmptyState)
   }
 

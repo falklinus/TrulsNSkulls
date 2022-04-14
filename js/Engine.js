@@ -1,5 +1,5 @@
 class Engine {
-    constructor({ frameRate = 25, update, render, }) {
+    constructor({ frameRate = 30, update, render, }) {
         this.frameId = 0;
         this.time = window.performance.now();
         this.timeBuffer = 0;

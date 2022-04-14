@@ -9,7 +9,7 @@ class Engine {
   running = false
 
   constructor({
-    frameRate = 25,
+    frameRate = 30,
     update,
     render,
   }: {

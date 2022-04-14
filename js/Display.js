@@ -9,6 +9,8 @@ class Display {
         this.context = canvas.getContext('2d');
     }
     drawObject({ color, source, destination, width = this.buffer.canvas.width / this.scale_x, height = this.buffer.canvas.height / this.scale_y, }) {
+        // if (color) console.log(color)
+        // console.log(source)
         if (source) {
             this.buffer.drawImage(source.image, source.x, source.y, width, height, destination.x * this.scale_x +
                 destination.offset.x * this.buffer.canvas.width, destination.y * this.scale_y +

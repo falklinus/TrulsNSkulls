@@ -33,6 +33,8 @@ class Display {
     width?: number
     height?: number
   }) {
+    // if (color) console.log(color)
+    // console.log(source)
     if (source) {
       this.buffer.drawImage(
         source.image,

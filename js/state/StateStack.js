@@ -14,8 +14,9 @@ class StateList {
     }
 }
 export class StateStack {
-    constructor() {
+    constructor({ frameRate = 30 }) {
         this.states = new StateList();
+        this.frameRate = frameRate;
         this.states.push(EmptyState);
     }
     update() {

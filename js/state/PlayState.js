@@ -34,14 +34,14 @@ function PlayState(display, gameStack) {
         if (world.player.moving && world.isEncounter()) {
             console.log('ENCOUNTER');
             gameStack.push(FadeState({
-                color: { r: 255, g: 255, b: 255 },
+                color: { r: 0, g: 0, b: 0 },
                 direction: 'out',
                 duration: 200,
-                repeat: 10,
+                repeat: 9,
                 display,
                 gameStack,
                 toState: FadeState({
-                    color: { r: 255, g: 255, b: 255 },
+                    color: { r: 0, g: 0, b: 0 },
                     direction: 'in',
                     duration: 1000,
                     repeat: 1,
@@ -50,7 +50,6 @@ function PlayState(display, gameStack) {
                     toState: BattleState({ display }),
                 }),
             }));
-            //BattleState({ display }),
         }
         movePlayer();
     }

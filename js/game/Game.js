@@ -3,7 +3,7 @@ import Engine from '../Engine.js';
 import { StateStack } from '../state/StateStack.js';
 import StartScreenState from '../state/StartScreenState.js';
 function Game() {
-    const gameMode = new StateStack();
+    const gameMode = new StateStack({ frameRate: 30 });
     function update() {
         gameMode.update();
     }
@@ -12,7 +12,7 @@ function Game() {
         display.render();
     }
     const engine = new Engine({
-        frameRate: 30,
+        frameRate: gameMode.frameRate,
         update,
         render,
     });

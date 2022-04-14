@@ -23,63 +23,49 @@ function FadeState({
   toState: State
 }) {
   const name = 'FadeState'
+
   let opacity = direction == 'in' ? 1 : 0
+  let fadeDirection = direction
+  let start: number
+  let count = 0
+  const fadeDuration = (gameStack.frameRate * duration) / 1000
+  const opacityDelta = 1 / ((gameStack.frameRate * duration) / 1000)
 
   const renderColor = () => {
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity.toFixed(2)})`
   }
 
-  let intervalId: number
-  let timeOutId: number
-  let start = Date.now()
-  let frameId: number
-
   function onEnter() {
-    // console.log(duration / 100, repeat * duration)
-    let now = performance.now()
-    let count = 0
-    let fadeDirection = direction == 'in' ? 'out' : 'in'
-
-    const fade = (time: number) => {
-      const elapsed = time - now
-      // console.log(elapsed)
-      if (elapsed > 40 || count == 0) {
-        count++
-        if (fadeDirection == 'in') opacity += 40 / duration
-        if (fadeDirection == 'out') opacity -= 40 / duration
-        now = time
-        console.log(count)
-        if (count % (duration / 40) == 0)
-          fadeDirection = fadeDirection == 'in' ? 'out' : 'in'
-      }
-      if (count == (duration * repeat) / 40) {
-        gameStack.pop()
-        gameStack.push(toState)
-      } else {
-        frameId = requestAnimationFrame(fade)
-      }
-    }
-
-    fade(now)
-
-    // timeOutId = setTimeout(() => {
-    //   gameStack.pop()
-
-    //   gameStack.push(toState)
-    // }, repeat * duration)
+    start = Date.now()
   }
 
   function onExit() {
     console.log('time', Date.now() - start)
-    cancelAnimationFrame(frameId)
-    clearInterval(intervalId)
-    clearTimeout(timeOutId)
   }
-  function update() {}
+  function update() {
+    count++
+    if (count >= fadeDuration * repeat) {
+      gameStack.pop()
+      gameStack.push(toState)
+      return
+    }
+    if (count % Math.ceil(fadeDuration) == 0) {
+      fadeDirection = fadeDirection == 'in' ? 'out' : 'in'
+    }
+
+    if (fadeDirection == 'in') opacity -= opacityDelta
+    if (fadeDirection == 'out') opacity += opacityDelta
+
+    opacity = Math.min(1, Math.max(0, opacity))
+  }
+
   function render() {
     if (direction == 'out')
       gameStack.states.states[gameStack.states.states.length - 2].render()
-    if (direction == 'in') toState.render()
+    if (direction == 'in') {
+      toState.render()
+    }
+
     display.drawObject({
       color: renderColor(),
       destination: {
